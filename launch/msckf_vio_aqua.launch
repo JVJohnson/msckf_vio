@@ -3,10 +3,10 @@
   <arg name="robot" default="firefly_sbx"/>
   <arg name="fixed_frame_id" default="world"/>
   <arg name="calibration_file"
-    default="$(find msckf_vio)/config/camchain-imucam-husky.yaml"/>
+    default="$(find msckf_vio)/config/camchain-imucam-aqua.yaml"/>
 
   <!-- Image Processor Nodelet  -->
-  <include file="$(find msckf_vio)/launch/image_processor_husky.launch">
+  <include file="$(find msckf_vio)/launch/image_processor_aqua.launch">
     <arg name="robot" value="$(arg robot)"/>
     <arg name="calibration_file" value="$(arg calibration_file)"/>
   </include>
@@ -52,7 +52,7 @@
       <param name="initial_covariance/extrinsic_rotation_cov" value="3.0462e-4"/>
       <param name="initial_covariance/extrinsic_translation_cov" value="2.5e-5"/>
 
-      <remap from="~imu" to="/pirvs/imu"/>
+      <remap from="~imu" to="/aqua/imu"/>
       <remap from="~features" to="image_processor/features"/>
 
     </node>
