@@ -1,12 +1,14 @@
 <launch>
 
+<arg name="MSCKFbag" default="/home/alanhernandez/Downloads/Euroc/MH_03_medium.bag"/>
+
   <arg name="robot" default="firefly_sbx"/>
   <arg name="fixed_frame_id" default="world"/>
   <arg name="calibration_file"
-    default="$(find msckf_vio)/config/camchain-imucam-husky.yaml"/>
+    default="$(find msckf_vio)/config/camchain-imucam-euroc.yaml"/>
 
   <!-- Image Processor Nodelet  -->
-  <include file="$(find msckf_vio)/launch/image_processor_husky.launch">
+  <include file="$(find msckf_vio)/launch/image_processor_euroc.launch">
     <arg name="robot" value="$(arg robot)"/>
     <arg name="calibration_file" value="$(arg calibration_file)"/>
   </include>
@@ -52,10 +54,11 @@
       <param name="initial_covariance/extrinsic_rotation_cov" value="3.0462e-4"/>
       <param name="initial_covariance/extrinsic_translation_cov" value="2.5e-5"/>
 
-      <remap from="~imu" to="/pirvs/imu"/>
+      <remap from="~imu" to="/imu0"/>
       <remap from="~features" to="image_processor/features"/>
 
     </node>
   </group>
-
+  <node pkg="rosbag" type="play" name="playback" args="-s 0.0 $(arg MSCKFbag)" />
+  <node pkg="rviz" name="msckf_rviz" type="rviz" args="-d $(find msckf_vio)/rviz/rviz_euroc_config.rviz"/>
 </launch>
